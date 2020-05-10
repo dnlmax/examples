@@ -7,4 +7,6 @@ install:
   - npm install
 
 script:
-  - npm run lint
+  - npm run docs
+  - npm run validate
+  - ./check-if-readme-is-up-to-date.sh

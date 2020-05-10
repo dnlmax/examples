@@ -10,7 +10,7 @@ coverage
 .grunt
 .lock-wscript
 node_modules
-**/.idea
+.idea
 .DS_Store
 .tmp
 .env
@@ -20,3 +20,8 @@ env.json
 admin.env
 tmp
 *.pyc
+*.swp
+*.swo
+vendor
+./bin/Debug/netcoreapp2.1/
+./bin/release/netcoreapp2.1/

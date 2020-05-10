@@ -1,6 +1,6 @@
 'use strict';
 
-const AWS = require('aws-sdk');
+const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies
 const config = require('./config.js');
 
 const sns = new AWS.SNS();
@@ -8,8 +8,12 @@ const sns = new AWS.SNS();
 module.exports.addNote = (event, context, callback) => {
   const data = JSON.parse(event.body);
   if (typeof data.note !== 'string') {
-    console.error('Validation Failed'); // eslint-disable-line no-console
-    callback(new Error('Couldn\'t add the note.'));
+    console.error('Validation Failed');
+    callback(null, {
+      statusCode: 400,
+      headers: { 'Content-Type': 'text/plain' },
+      body: 'Couldn\'t add the note.',
+    });
     return;
   }
 
@@ -20,9 +24,12 @@ module.exports.addNote = (event, context, callback) => {
 
   sns.publish(params, (error) => {
     if (error) {
-      // eslint-disable-next-line no-console
       console.error(error);
-      callback(new Error('Couldn\'t add the note due an internal error. Please try again later.'));
+      callback(null, {
+        statusCode: 501,
+        headers: { 'Content-Type': 'text/plain' },
+        body: 'Couldn\'t add the note due an internal error. Please try again later.',
+      });
     }
     // create a resonse
     const response = {
